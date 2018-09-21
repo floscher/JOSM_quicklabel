@@ -1,0 +1,35 @@
+plugins {
+  id "java"
+  id "org.openstreetmap.josm" version "0.5.0"
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = ["src/"]
+    }
+  }
+}
+
+tasks.processResources {
+  from (projectDir) {
+    include("images/*")
+    include("data/*")
+    include("README.*")
+    include("GPL-*")
+  }
+}
+
+josm {
+  manifest {
+    oldVersionDownloadLink(13170, "21", new URL("https://github.com/maripo/JOSM_quicklabel/releases/download/21/QuickLabel.jar"))
+    oldVersionDownloadLink(12545, "v1.0.1", new URL("https://github.com/maripo/JOSM_quicklabel/releases/download/v1.0.1/QuickLabel.jar"))
+  }
+}
+
+tasks.withType(JavaCompile) {
+  options.compilerArgs += [
+    "-Xlint:all",
+    "-Xlint:-serial",
+  ]
+}
